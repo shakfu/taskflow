@@ -5,7 +5,6 @@
 #include <sstream> // __str__
 #include <streambuf>
 #include <string>
-#include <string_view>
 #include <taskflow/utility/uuid.hpp>
 
 #include <functional>
@@ -34,7 +33,6 @@ void bind_taskflow_utility_uuid(std::function< pybind11::module &(std::string co
 		cl.def("hash_value", (unsigned long (tf::UUID::*)() const) &tf::UUID::hash_value, "C++: tf::UUID::hash_value() const --> unsigned long");
 		cl.def("__eq__", (bool (tf::UUID::*)(const struct tf::UUID &) const) &tf::UUID::operator==, "C++: tf::UUID::operator==(const struct tf::UUID &) const --> bool", pybind11::arg(""));
 		cl.def("__ne__", (bool (tf::UUID::*)(const struct tf::UUID &) const) &tf::UUID::operator!=, "C++: tf::UUID::operator!=(const struct tf::UUID &) const --> bool", pybind11::arg(""));
-		cl.def("to_string", (std::string (tf::UUID::*)() const) &tf::UUID::to_string, "C++: tf::UUID::to_string() const --> std::string");
 
 		cl.def("__str__", [](tf::UUID const &o) -> std::string { std::ostringstream s; s << o; return s.str(); } );
 	}

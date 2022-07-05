@@ -5,10 +5,13 @@ SYS_C_INCLUDE=/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/inclu
 PWD=$(shell pwd)
 
 NAME=taskflow
-NAMESPACE_TO_BIND=tf
 ALL_INCLUDES=all_includes.hpp
 CPP_STANDARD=-std=c++17
 CONFIG_FILE=config.txt
+NAMESPACE_TO_BIND=tf
+NAMESPACE_TO_SKIP=std
+
+all: regen
 
 bind:
 	@mkdir -p bind
@@ -17,6 +20,7 @@ bind:
 		--prefix $(PWD)/bind \
 		--config=$(CONFIG_FILE) \
 		--bind $(NAMESPACE_TO_BIND) \
+		--skip $(NAMESPACE_TO_SKIP) \
 		$(ALL_INCLUDES) \
 		-- $(CPP_STANDARD) \
 		-isystem $(SYS_C_INCLUDE) \
@@ -27,7 +31,7 @@ bind:
 		-DNDEBUG
 
 
-.PHONY: build clean test
+.PHONY: build clean regen test
 
 build:
 	python3 setup.py build_ext --inplace
@@ -35,6 +39,9 @@ build:
 clean:
 	@rm -rf bind build
 
+regen: clean bind
+
 test:
 	g++ -std=c++17 tests/simple.cpp -Iinclude -O2 -pthread -o tests/simple
+
 

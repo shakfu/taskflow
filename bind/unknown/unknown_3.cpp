@@ -6,7 +6,6 @@
 #include <ratio>
 #include <sstream> // __str__
 #include <string>
-#include <string_view>
 #include <thread>
 #include <vector>
 
@@ -20,38 +19,6 @@
 	PYBIND11_DECLARE_HOLDER_TYPE(T, T*)
 	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>)
 #endif
-
-// tf::WorkerInterface file: line:212
-struct PyCallBack_tf_WorkerInterface : public tf::WorkerInterface {
-	using tf::WorkerInterface::WorkerInterface;
-
-	void scheduler_prologue(class tf::Worker & a0) override {
-		pybind11::gil_scoped_acquire gil;
-		pybind11::function overload = pybind11::get_overload(static_cast<const tf::WorkerInterface *>(this), "scheduler_prologue");
-		if (overload) {
-			auto o = overload.operator()<pybind11::return_value_policy::reference>(a0);
-			if (pybind11::detail::cast_is_temporary_value_reference<void>::value) {
-				static pybind11::detail::override_caster_t<void> caster;
-				return pybind11::detail::cast_ref<void>(std::move(o), caster);
-			}
-			else return pybind11::detail::cast_safe<void>(std::move(o));
-		}
-		pybind11::pybind11_fail("Tried to call pure virtual function \"WorkerInterface::scheduler_prologue\"");
-	}
-	void scheduler_epilogue(class tf::Worker & a0, class std::exception_ptr a1) override {
-		pybind11::gil_scoped_acquire gil;
-		pybind11::function overload = pybind11::get_overload(static_cast<const tf::WorkerInterface *>(this), "scheduler_epilogue");
-		if (overload) {
-			auto o = overload.operator()<pybind11::return_value_policy::reference>(a0, a1);
-			if (pybind11::detail::cast_is_temporary_value_reference<void>::value) {
-				static pybind11::detail::override_caster_t<void> caster;
-				return pybind11::detail::cast_ref<void>(std::move(o), caster);
-			}
-			else return pybind11::detail::cast_safe<void>(std::move(o));
-		}
-		pybind11::pybind11_fail("Tried to call pure virtual function \"WorkerInterface::scheduler_epilogue\"");
-	}
-};
 
 // tf::ObserverInterface file: line:170
 struct PyCallBack_tf_ObserverInterface : public tf::ObserverInterface {
@@ -217,7 +184,6 @@ void bind_unknown_unknown_3(std::function< pybind11::module &(std::string const 
 		pybind11::class_<tf::Worker, std::shared_ptr<tf::Worker>> cl(M("tf"), "Worker", "class to create a worker in an executor\n\nThe class is primarily used by the executor to perform work-stealing algorithm.\nUsers can access a worker object and alter its property\n(e.g., changing the thread affinity in a POSIX-like system)\nusing tf::WorkerInterface.");
 		cl.def( pybind11::init( [](){ return new tf::Worker(); } ) );
 		cl.def("id", (unsigned long (tf::Worker::*)() const) &tf::Worker::id, "queries the worker id associated with its parent executor\n\n    A worker id is a unsigned integer in the range [0, N),\n    where  is the number of workers spawned at the construction\n    time of the executor.\n\nC++: tf::Worker::id() const --> unsigned long");
-		cl.def("thread", (class std::thread * (tf::Worker::*)() const) &tf::Worker::thread, "acquires a pointer access to the underlying thread\n\nC++: tf::Worker::thread() const --> class std::thread *", pybind11::return_value_policy::automatic);
 		cl.def("queue_size", (unsigned long (tf::Worker::*)() const) &tf::Worker::queue_size, "queries the size of the queue (i.e., number of enqueued tasks to\n           run) associated with the worker\n\nC++: tf::Worker::queue_size() const --> unsigned long");
 		cl.def("queue_capacity", (unsigned long (tf::Worker::*)() const) &tf::Worker::queue_capacity, "queries the current capacity of the queue\n\nC++: tf::Worker::queue_capacity() const --> unsigned long");
 	}
@@ -228,23 +194,18 @@ void bind_unknown_unknown_3(std::function< pybind11::module &(std::string const 
 		cl.def("queue_capacity", (unsigned long (tf::WorkerView::*)() const) &tf::WorkerView::queue_capacity, "queries the current capacity of the queue\n\nC++: tf::WorkerView::queue_capacity() const --> unsigned long");
 	}
 	{ // tf::WorkerInterface file: line:212
-		pybind11::class_<tf::WorkerInterface, std::shared_ptr<tf::WorkerInterface>, PyCallBack_tf_WorkerInterface> cl(M("tf"), "WorkerInterface", "class WorkerInterface\n\nThe tf::WorkerInterface class lets users to interact with the executor\nto customize the thread behavior,\nsuch as calling custom methods before and after a worker enters and leaves\nthe loop.\n\nWhen you create an executor, it spawns a set of workers to run tasks.\nThe interaction between the executor and its spawned workers looks like\nthe following:\n\nfor(size_t n=0; n<num_workers; n++) {\n  create_thread([](Worker& worker)\n\n    // pre-processing executor-specific worker information\n    // ...\n\n    // enter the scheduling loop\n    // Here, WorkerInterface::scheduler_prologue is invoked, if any\n\n    while(1) {\n      perform_work_stealing_algorithm();\n      if(stop) {\n        break; \n      }\n    }\n\n    // leaves the scheduling loop and joins this worker thread\n    // Here, WorkerInterface::scheduler_epilogue is invoked, if any\n  );\n}\n\n\nMethods defined in tf::WorkerInterface are not thread-safe and may be\nbe invoked by multiple workers concurrently.");
-		cl.def( pybind11::init( [](){ return new PyCallBack_tf_WorkerInterface(); } ) );
+		pybind11::class_<tf::WorkerInterface, std::shared_ptr<tf::WorkerInterface>> cl(M("tf"), "WorkerInterface", "class WorkerInterface\n\nThe tf::WorkerInterface class lets users to interact with the executor\nto customize the thread behavior,\nsuch as calling custom methods before and after a worker enters and leaves\nthe loop.\n\nWhen you create an executor, it spawns a set of workers to run tasks.\nThe interaction between the executor and its spawned workers looks like\nthe following:\n\nfor(size_t n=0; n<num_workers; n++) {\n  create_thread([](Worker& worker)\n\n    // pre-processing executor-specific worker information\n    // ...\n\n    // enter the scheduling loop\n    // Here, WorkerInterface::scheduler_prologue is invoked, if any\n\n    while(1) {\n      perform_work_stealing_algorithm();\n      if(stop) {\n        break; \n      }\n    }\n\n    // leaves the scheduling loop and joins this worker thread\n    // Here, WorkerInterface::scheduler_epilogue is invoked, if any\n  );\n}\n\n\nMethods defined in tf::WorkerInterface are not thread-safe and may be\nbe invoked by multiple workers concurrently.");
 		cl.def("scheduler_prologue", (void (tf::WorkerInterface::*)(class tf::Worker &)) &tf::WorkerInterface::scheduler_prologue, "method to call before a worker enters the scheduling loop\n  \n\n a reference to the worker\n\nC++: tf::WorkerInterface::scheduler_prologue(class tf::Worker &) --> void", pybind11::arg("worker"));
-		cl.def("scheduler_epilogue", (void (tf::WorkerInterface::*)(class tf::Worker &, class std::exception_ptr)) &tf::WorkerInterface::scheduler_epilogue, "method to call after a worker leaves the scheduling loop\n  \n\n a reference to the worker\n  \n\n an pointer to the exception thrown by the scheduling loop\n\nC++: tf::WorkerInterface::scheduler_epilogue(class tf::Worker &, class std::exception_ptr) --> void", pybind11::arg("worker"), pybind11::arg("ptr"));
 		cl.def("assign", (class tf::WorkerInterface & (tf::WorkerInterface::*)(const class tf::WorkerInterface &)) &tf::WorkerInterface::operator=, "C++: tf::WorkerInterface::operator=(const class tf::WorkerInterface &) --> class tf::WorkerInterface &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
 	{ // tf::Segment file: line:26
 		pybind11::class_<tf::Segment, std::shared_ptr<tf::Segment>> cl(M("tf"), "Segment", "");
 		cl.def( pybind11::init( [](){ return new tf::Segment(); } ) );
-		cl.def( pybind11::init<const std::string &, enum tf::TaskType, class std::chrono::time_point<class std::chrono::steady_clock, class std::chrono::duration<long long, class std::ratio<1, 1000000000> > >, class std::chrono::time_point<class std::chrono::steady_clock, class std::chrono::duration<long long, class std::ratio<1, 1000000000> > >>(), pybind11::arg("n"), pybind11::arg("t"), pybind11::arg("b"), pybind11::arg("e") );
-
 		cl.def( pybind11::init( [](tf::Segment const &o){ return new tf::Segment(o); } ) );
 		cl.def_readwrite("name", &tf::Segment::name);
 		cl.def_readwrite("type", &tf::Segment::type);
 		cl.def_readwrite("beg", &tf::Segment::beg);
 		cl.def_readwrite("end", &tf::Segment::end);
-		cl.def("span", (class std::chrono::duration<long long, class std::ratio<1, 1000000000> > (tf::Segment::*)() const) &tf::Segment::span, "C++: tf::Segment::span() const --> class std::chrono::duration<long long, class std::ratio<1, 1000000000> >");
 	}
 	{ // tf::Timeline file: line:59
 		pybind11::class_<tf::Timeline, std::shared_ptr<tf::Timeline>> cl(M("tf"), "Timeline", "");
@@ -272,8 +233,6 @@ void bind_unknown_unknown_3(std::function< pybind11::module &(std::string const 
 		cl.def( pybind11::init( [](){ return new tf::ChromeObserver(); }, [](){ return new PyCallBack_tf_ChromeObserver(); } ) );
 		cl.def( pybind11::init( [](PyCallBack_tf_ChromeObserver const &o){ return new PyCallBack_tf_ChromeObserver(o); } ) );
 		cl.def( pybind11::init( [](tf::ChromeObserver const &o){ return new tf::ChromeObserver(o); } ) );
-		cl.def("dump", (void (tf::ChromeObserver::*)(std::ostream &) const) &tf::ChromeObserver::dump, "dumps the timelines into a  format through \n           an output stream \n\nC++: tf::ChromeObserver::dump(std::ostream &) const --> void", pybind11::arg("ostream"));
-		cl.def("dump", (std::string (tf::ChromeObserver::*)() const) &tf::ChromeObserver::dump, "dumps the timelines into a  format\n\nC++: tf::ChromeObserver::dump() const --> std::string");
 		cl.def("clear", (void (tf::ChromeObserver::*)()) &tf::ChromeObserver::clear, "clears the timeline data\n\nC++: tf::ChromeObserver::clear() --> void");
 		cl.def("num_tasks", (unsigned long (tf::ChromeObserver::*)() const) &tf::ChromeObserver::num_tasks, "queries the number of tasks observed\n\nC++: tf::ChromeObserver::num_tasks() const --> unsigned long");
 		cl.def("assign", (class tf::ChromeObserver & (tf::ChromeObserver::*)(const class tf::ChromeObserver &)) &tf::ChromeObserver::operator=, "C++: tf::ChromeObserver::operator=(const class tf::ChromeObserver &) --> class tf::ChromeObserver &", pybind11::return_value_policy::automatic, pybind11::arg(""));
@@ -281,15 +240,12 @@ void bind_unknown_unknown_3(std::function< pybind11::module &(std::string const 
 	{ // tf::TFProfObserver file: line:446
 		pybind11::class_<tf::TFProfObserver, std::shared_ptr<tf::TFProfObserver>, PyCallBack_tf_TFProfObserver, tf::ObserverInterface> cl(M("tf"), "TFProfObserver", "class to create an observer based on the built-in taskflow profiler format\n\nA tf::TFProfObserver inherits tf::ObserverInterface and defines methods to dump\nthe observed thread activities into a format that can be visualized through\n.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWe recommend using our  python script to observe thread activities \ninstead of the raw function call.\nThe script will turn on environment variables needed for observing all executors \nin a taskflow program and dump the result to a valid, clean JSON file\ncompatible with the format of .");
 		cl.def( pybind11::init( [](){ return new tf::TFProfObserver(); }, [](){ return new PyCallBack_tf_TFProfObserver(); } ) );
-		cl.def("dump", (void (tf::TFProfObserver::*)(std::ostream &) const) &tf::TFProfObserver::dump, "dumps the timelines into a  format through \n           an output stream\n\nC++: tf::TFProfObserver::dump(std::ostream &) const --> void", pybind11::arg("ostream"));
-		cl.def("dump", (std::string (tf::TFProfObserver::*)() const) &tf::TFProfObserver::dump, "dumps the timelines into a JSON string\n\nC++: tf::TFProfObserver::dump() const --> std::string");
 		cl.def("clear", (void (tf::TFProfObserver::*)()) &tf::TFProfObserver::clear, "clears the timeline data\n\nC++: tf::TFProfObserver::clear() --> void");
 		cl.def("num_tasks", (unsigned long (tf::TFProfObserver::*)() const) &tf::TFProfObserver::num_tasks, "queries the number of tasks observed\n\nC++: tf::TFProfObserver::num_tasks() const --> unsigned long");
 	}
 	{ // tf::TFProfManager file: line:626
 		pybind11::class_<tf::TFProfManager, std::shared_ptr<tf::TFProfManager>> cl(M("tf"), "TFProfManager", "");
 		cl.def_static("get", (class tf::TFProfManager & (*)()) &tf::TFProfManager::get, "C++: tf::TFProfManager::get() --> class tf::TFProfManager &", pybind11::return_value_policy::automatic);
-		cl.def("dump", (void (tf::TFProfManager::*)(std::ostream &) const) &tf::TFProfManager::dump, "C++: tf::TFProfManager::dump(std::ostream &) const --> void", pybind11::arg("ostream"));
 	}
 	// tf::ObserverType file: line:721
 	pybind11::enum_<tf::ObserverType>(M("tf"), "ObserverType", "enumeration of all observer types")
@@ -309,6 +265,15 @@ void bind_unknown_unknown_3(std::function< pybind11::module &(std::string const 
 		cl.def( pybind11::init( [](tf::FlowBuilder const &o){ return new tf::FlowBuilder(o); } ) );
 		cl.def("erase", (void (tf::FlowBuilder::*)(class tf::Task)) &tf::FlowBuilder::erase, "removes a task from a taskflow\n\n    \n task to remove\n\n    Removes a task and its input and output dependencies from the graph\n    associated with the flow builder.\n    If the task does not belong to the graph, nothing will happen.\n\n    \n\n\n\n\n\n\n\n\n\n    \n\nC++: tf::FlowBuilder::erase(class tf::Task) --> void", pybind11::arg("task"));
 		cl.def("placeholder", (class tf::Task (tf::FlowBuilder::*)()) &tf::FlowBuilder::placeholder, "creates a placeholder task\n\n    \n a tf::Task handle\n\n    A placeholder task maps to a node in the taskflow graph, but\n    it does not have any callable work assigned yet.\n    A placeholder task is different from an empty task handle that\n    does not point to any node in a graph.\n\n    \n\n\n\n\n\n\n\n\n\n\n\n\n    \n\nC++: tf::FlowBuilder::placeholder() --> class tf::Task");
-		cl.def("linearize", (void (tf::FlowBuilder::*)(class std::vector<class tf::Task, class std::allocator<class tf::Task> > &)) &tf::FlowBuilder::linearize, "adds adjacent dependency links to a linear list of tasks\n\n    \n a vector of tasks\n\n    This member function creates linear dependencies over a vector of tasks.\n\n    \n\n\n\n\n\n\n\n    \n\nC++: tf::FlowBuilder::linearize(class std::vector<class tf::Task, class std::allocator<class tf::Task> > &) --> void", pybind11::arg("tasks"));
+	}
+	{ // tf::Subflow file: line:776
+		pybind11::class_<tf::Subflow, std::shared_ptr<tf::Subflow>, tf::FlowBuilder> cl(M("tf"), "Subflow", "class to construct a subflow graph from the execution of a dynamic task\n\nBy default, a subflow automatically  its parent node.\nYou may explicitly join or detach a subflow by calling tf::Subflow::join\nor tf::Subflow::detach, respectively.\nThe following example creates a taskflow graph that spawns a subflow from\nthe execution of task  and the subflow contains three tasks, \n and  where  runs after  and \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+		cl.def( pybind11::init( [](tf::Subflow const &o){ return new tf::Subflow(o); } ) );
+		cl.def("join", (void (tf::Subflow::*)()) &tf::Subflow::join, "enables the subflow to join its parent task\n\n    Performs an immediate action to join the subflow. Once the subflow is joined,\n    it is considered finished and you may not modify the subflow anymore.\n\n    \n\n\n\n\n\n    Only the worker that spawns this subflow can join it.\n\nC++: tf::Subflow::join() --> void");
+		cl.def("detach", (void (tf::Subflow::*)()) &tf::Subflow::detach, "enables the subflow to detach from its parent task\n\n    Performs an immediate action to detach the subflow. Once the subflow is detached,\n    it is considered finished and you may not modify the subflow anymore.\n\n    \n\n\n\n\n\n    Only the worker that spawns this subflow can detach it.\n\nC++: tf::Subflow::detach() --> void");
+		cl.def("reset", [](tf::Subflow &o) -> void { return o.reset(); }, "");
+		cl.def("reset", (void (tf::Subflow::*)(bool)) &tf::Subflow::reset, "resets the subflow to a joinable state\n\n    \n specifies whether to clear the associated graph (default \n\n    Clears the underlying task graph depending on the \n    given variable  (default  and then\n    updates the subflow to a joinable state.\n\nC++: tf::Subflow::reset(bool) --> void", pybind11::arg("clear_graph"));
+		cl.def("joinable", (bool (tf::Subflow::*)() const) &tf::Subflow::joinable, "queries if the subflow is joinable\n\n    This member function queries if the subflow is joinable.\n    When a subflow is joined or detached, it becomes not joinable.\n\n    \n\n\n\n\n\n\n\n    \n\nC++: tf::Subflow::joinable() const --> bool");
+		cl.def("executor", (class tf::Executor & (tf::Subflow::*)()) &tf::Subflow::executor, "returns the executor that runs this subflow\n\nC++: tf::Subflow::executor() --> class tf::Executor &", pybind11::return_value_policy::automatic);
 	}
 }

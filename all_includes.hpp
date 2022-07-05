@@ -1,20 +1,20 @@
 #include <taskflow/taskflow.hpp>
 
-#include <taskflow/core/declarations.hpp>
-#include <taskflow/core/taskflow.hpp>
 #include <taskflow/core/executor.hpp>
+#include <taskflow/core/taskflow.hpp>
+#include <taskflow/core/graph.hpp>
+#include <taskflow/core/task.hpp>
+#include <taskflow/core/worker.hpp>
+#include <taskflow/core/declarations.hpp>
 #include <taskflow/core/environment.hpp>
 #include <taskflow/core/error.hpp>
-//#include <taskflow/core/executor-module-opt.hpp>
 #include <taskflow/core/flow_builder.hpp>
-#include <taskflow/core/graph.hpp>
 #include <taskflow/core/notifier.hpp>
 #include <taskflow/core/observer.hpp>
 #include <taskflow/core/semaphore.hpp>
-#include <taskflow/core/task.hpp>
 #include <taskflow/core/topology.hpp>
 #include <taskflow/core/tsq.hpp>
-#include <taskflow/core/worker.hpp>
+//#include <taskflow/core/executor-module-opt.hpp>
 
 #include <taskflow/algorithm/critical.hpp>
 #include <taskflow/algorithm/for_each.hpp>

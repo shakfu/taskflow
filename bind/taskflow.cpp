@@ -9,17 +9,6 @@
 
 typedef std::function< pybind11::module & (std::string const &) > ModuleGetter;
 
-void bind_sys__pthread__pthread_types(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_std_string(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_std_exception(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_std_stdexcept(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_std_system_error(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_std_chrono(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind___threading_support(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_std_thread(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_std___locale(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_std_unknown_unknown(std::function< pybind11::module &(std::string const &namespace_) > &M);
-void bind_std_future(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_unknown_unknown(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_unknown_unknown_1(std::function< pybind11::module &(std::string const &namespace_) > &M);
 void bind_unknown_unknown_2(std::function< pybind11::module &(std::string const &namespace_) > &M);
@@ -51,9 +40,6 @@ PYBIND11_MODULE(taskflow, root_module) {
 	);
 
 	std::vector< std::pair<std::string, std::string> > sub_modules {
-		{"", "st"},
-		{"", "std"},
-		{"std", "chrono"},
 		{"", "tf"},
 		{"tf", "detail"},
 		{"tf", "dsl"},
@@ -62,17 +48,6 @@ PYBIND11_MODULE(taskflow, root_module) {
 
 	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
-	bind_sys__pthread__pthread_types(M);
-	bind_std_string(M);
-	bind_std_exception(M);
-	bind_std_stdexcept(M);
-	bind_std_system_error(M);
-	bind_std_chrono(M);
-	bind___threading_support(M);
-	bind_std_thread(M);
-	bind_std___locale(M);
-	bind_std_unknown_unknown(M);
-	bind_std_future(M);
 	bind_unknown_unknown(M);
 	bind_unknown_unknown_1(M);
 	bind_unknown_unknown_2(M);
