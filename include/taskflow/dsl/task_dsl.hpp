@@ -5,10 +5,10 @@
 #define TASKFLOW_DSL_TASK_DSL_H
 
 
-#include "../core/flow_builder.hpp"
-#include "meta_macro.hpp"
-#include "task_analyzer.hpp"
-#include "task_trait.hpp"
+#include <taskflow/core/flow_builder.hpp>
+#include <taskflow/dsl/meta_macro.hpp>
+#include <taskflow/dsl/task_analyzer.hpp>
+#include <taskflow/dsl/task_trait.hpp>
 
 namespace tf {
 namespace dsl {

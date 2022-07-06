@@ -1,7 +1,7 @@
 #ifndef TASKFLOW_CLASS_H
 #define TASKFLOW_CLASS_H
 
-#include "flow_builder.hpp"
+#include <taskflow/core/flow_builder.hpp>
 
 /**
 @file taskflow/core/taskflow.hpp

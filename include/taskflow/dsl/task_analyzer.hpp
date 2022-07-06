@@ -3,8 +3,8 @@
 #ifndef TASKFLOW_DSL_ANALYZER_H
 #define TASKFLOW_DSL_ANALYZER_H
 
-#include "connection.hpp"
-#include "type_list.hpp"
+#include <taskflow/dsl/connection.hpp>
+#include <taskflow/dsl/type_list.hpp>
 #include <type_traits>
 
 namespace tf {

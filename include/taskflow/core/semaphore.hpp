@@ -4,7 +4,7 @@
 #include <vector>
 #include <mutex>
 
-#include "declarations.hpp"
+#include <taskflow/core/declarations.hpp>
 
 /**
 @file semaphore.hpp

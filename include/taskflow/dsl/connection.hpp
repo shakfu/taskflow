@@ -3,10 +3,10 @@
 #ifndef TASKFLOW_DSL_CONNECTION_H
 #define TASKFLOW_DSL_CONNECTION_H
 
-#include "../core/flow_builder.hpp"
-#include "task_trait.hpp"
-#include "tuple_utils.hpp"
-#include "type_list.hpp"
+#include <taskflow/core/flow_builder.hpp>
+#include <taskflow/dsl/task_trait.hpp>
+#include <taskflow/dsl/tuple_utils.hpp>
+#include <taskflow/dsl/type_list.hpp>
 
 namespace tf {
 namespace dsl {

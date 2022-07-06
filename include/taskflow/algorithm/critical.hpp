@@ -1,7 +1,7 @@
 #ifndef TASKFLOW_ALGO_CRITICAL_H
 #define TASKFLOW_ALGO_CRITICAL_H
 
-#include "../core/task.hpp"
+#include <taskflow/core/task.hpp>
 
 /**
 @file critical.hpp

@@ -7,11 +7,12 @@ PWD=$(shell pwd)
 NAME=taskflow
 ALL_INCLUDES=all_includes.hpp
 CPP_STANDARD=-std=c++17
+
 CONFIG_FILE=config.txt
 NAMESPACE_TO_BIND=tf
-NAMESPACE_TO_SKIP=std
+NAMESPACE_TO_SKIP=''
 
-all: regen
+all: regen build
 
 bind:
 	@mkdir -p bind
@@ -38,10 +39,11 @@ build:
 
 clean:
 	@rm -rf bind build
+	@rm -f $(NAME).cpython*.so
 
 regen: clean bind
 
 test:
-	g++ -std=c++17 tests/simple.cpp -Iinclude -O2 -pthread -o tests/simple
+	g++ $(CPP_STANDARD) tests/simple.cpp -Iinclude -O2 -pthread -o tests/simple
 
 

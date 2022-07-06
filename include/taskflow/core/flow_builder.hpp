@@ -1,7 +1,7 @@
 #ifndef TASKFLOW_FLOWBUILDER_H
 #define TASKFLOW_FLOWBUILDER_H
 
-#include "task.hpp"
+#include <taskflow/core/task.hpp>
 
 /**
 @file flow_builder.hpp

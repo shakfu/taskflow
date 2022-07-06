@@ -1,7 +1,7 @@
 #ifndef TASKFLOW_ALGO_REDUCE_H
 #define TASKFLOW_ALGO_REDUCE_H
 
-#include "../core/executor.hpp"
+#include <taskflow/core/executor.hpp>
 
 namespace tf {
 

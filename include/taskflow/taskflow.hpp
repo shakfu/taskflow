@@ -2,9 +2,9 @@
 #ifndef TASKFLOW_H
 #define TASKFLOW_H
 
-#include "core/executor.hpp"
-#include "algorithm/critical.hpp"
-#include "algorithm/for_each.hpp"
+#include <taskflow/core/executor.hpp>
+#include <taskflow/algorithm/critical.hpp>
+#include <taskflow/algorithm/for_each.hpp>
 
 /**
 @dir taskflow

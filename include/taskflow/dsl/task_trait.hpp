@@ -3,9 +3,9 @@
 #ifndef TASKFLOW_DSL_TASK_TRAIT_H
 #define TASKFLOW_DSL_TASK_TRAIT_H
 
-#include "../core/flow_builder.hpp"
-#include "../core/task.hpp"
-#include "type_list.hpp"
+#include <taskflow/core/flow_builder.hpp>
+#include <taskflow/core/task.hpp>
+#include <taskflow/dsl/type_list.hpp>
 #include <type_traits>
 
 namespace tf {

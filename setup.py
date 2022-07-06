@@ -8,7 +8,7 @@ os.environ['LDFLAGS'] = " ".join([
 ])
 
 os.environ['CPPFLAGS'] = " ".join([
-     "-std=c++14",
+     "-std=c++17",
 ])
 
 os.environ['CC'] = " ".join([

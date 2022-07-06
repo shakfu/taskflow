@@ -1,8 +1,8 @@
 #ifndef TASKFLOW_OBSERVER_H
 #define TASKFLOW_OBSERVER_H
 
-#include "task.hpp"
-#include "worker.hpp"
+#include <taskflow/core/task.hpp>
+#include <taskflow/core/worker.hpp>
 
 /** 
 @file observer.hpp

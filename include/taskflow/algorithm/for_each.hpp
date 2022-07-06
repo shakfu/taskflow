@@ -5,7 +5,7 @@
 #ifndef TASKFLOW_ALGO_FOREACH_H
 #define TASKFLOW_ALGO_FOREACH_H
 
-#include "../core/executor.hpp"
+#include <taskflow/core/executor.hpp>
 
 namespace tf {
 

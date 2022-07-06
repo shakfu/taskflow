@@ -1,17 +1,17 @@
 #ifndef TASKFLOW_GRAPH_H
 #define TASKFLOW_GRAPH_H
 
-#include "../utility/iterator.hpp"
-#include "../utility/object_pool.hpp"
-#include "../utility/traits.hpp"
-#include "../utility/os.hpp"
-#include "../utility/math.hpp"
-#include "../utility/small_vector.hpp"
-#include "error.hpp"
-#include "declarations.hpp"
-#include "semaphore.hpp"
-#include "environment.hpp"
-#include "topology.hpp"
+#include <taskflow/utility/iterator.hpp>
+#include <taskflow/utility/object_pool.hpp>
+#include <taskflow/utility/traits.hpp>
+#include <taskflow/utility/os.hpp>
+#include <taskflow/utility/math.hpp>
+#include <taskflow/utility/small_vector.hpp>
+#include <taskflow/core/error.hpp>
+#include <taskflow/core/declarations.hpp>
+#include <taskflow/core/semaphore.hpp>
+#include <taskflow/core/environment.hpp>
+#include <taskflow/core/topology.hpp>
 
 /**
 @file graph.hpp

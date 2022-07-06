@@ -1,9 +1,9 @@
 #ifndef TASKFLOW_WORKER_H
 #define TASKFLOW_WORKER_H
 
-#include "declarations.hpp"
-#include "tsq.hpp"
-#include "notifier.hpp"
+#include <taskflow/core/declarations.hpp>
+#include <taskflow/core/tsq.hpp>
+#include <taskflow/core/notifier.hpp>
 
 /**
 @file worker.hpp

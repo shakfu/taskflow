@@ -1,7 +1,7 @@
 #ifndef TASKFLOW_ALGO_PIPELINE_H
 #define TASKFLOW_ALGO_PIPELINE_H
 
-#include "../taskflow.hpp"
+#include <taskflow/core/taskflow.hpp>
 
 /**
 @file pipeline.hpp

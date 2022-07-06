@@ -5,7 +5,7 @@
 #include <sstream>
 #include <exception>
 
-#include "../utility/stream.hpp"
+#include <taskflow/utility/stream.hpp>
 
 namespace tf {
 

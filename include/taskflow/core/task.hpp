@@ -1,7 +1,7 @@
 #ifndef TASKFLOW_TASK_H
 #define TASKFLOW_TASK_H
 
-#include "graph.hpp"
+#include <taskflow/core/graph.hpp>
 
 /**
 @file task.hpp

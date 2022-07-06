@@ -1,8 +1,8 @@
 #ifndef TASKFLOW_EXECUTOR_MODULE_OPT_H
 #define TASKFLOW_EXECUTOR_MODULE_OPT_H
 
-#include "observer.hpp"
-#include "taskflow.hpp"
+#include <taskflow/core/observer.hpp>
+#include <taskflow/core/taskflow.hpp>
 
 /**
 @file executor.hpp
