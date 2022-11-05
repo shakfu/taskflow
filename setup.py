@@ -3,6 +3,18 @@ from glob import glob
 from setuptools import setup
 from pybind11.setup_helpers import Pybind11Extension
 
+
+def get_all_files(top, suffix='.cpp', skip_unknown=True):
+    results = []
+    for root, _, files in os.walk(top):
+        if skip_unknown and root.endswith('unknown'):
+            continue
+        for f in files:
+            if f.endswith(suffix):
+                results.append(os.path.join(root, f))
+    return sorted(results)
+
+
 os.environ['LDFLAGS'] = " ".join([
     "-framework CoreFoundation",
 ])
@@ -14,7 +26,6 @@ os.environ['CPPFLAGS'] = " ".join([
 os.environ['CC'] = " ".join([
      "clang++",
 ])
-
 
 
 DEFINE_MACROS = [
@@ -41,7 +52,8 @@ EXTRA_OBJECTS = [
 ]
 
 
-SOURCES = sorted(glob("bind/**/*.cpp"))
+#SOURCES = sorted(glob("bind/**/*.cpp"))
+SOURCES = get_all_files('bind', '.cpp')
 
 LIBPD_EXTENSION = Pybind11Extension("taskflow",
     SOURCES,  # Sort source files for reproducibility
