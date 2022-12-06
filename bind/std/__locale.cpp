@@ -40,7 +40,7 @@ struct PyCallBack_std_ios_base_failure : public std::ios_base::failure {
 	}
 };
 
-// std::basic_streambuf file: line:489
+// std::basic_streambuf file: line:488
 struct PyCallBack_std_streambuf : public std::streambuf {
 	using std::streambuf::basic_streambuf;
 
@@ -204,7 +204,7 @@ struct PyCallBack_std_streambuf : public std::streambuf {
 
 void bind_std___locale(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // std::locale file:__locale line:121
+	{ // std::locale file:__locale line:125
 		pybind11::class_<std::locale, std::shared_ptr<std::locale>> cl(M("std"), "locale", "");
 		cl.def( pybind11::init( [](){ return new std::locale(); } ) );
 		cl.def( pybind11::init( [](std::locale const &o){ return new std::locale(o); } ) );
@@ -225,7 +225,7 @@ void bind_std___locale(std::function< pybind11::module &(std::string const &name
 		cl.def_static("global", (class std::locale (*)(const class std::locale &)) &std::locale::global, "C++: std::locale::global(const class std::locale &) --> class std::locale", pybind11::arg(""));
 		cl.def_static("classic", (const class std::locale & (*)()) &std::locale::classic, "C++: std::locale::classic() --> const class std::locale &", pybind11::return_value_policy::automatic);
 
-		{ // std::locale::id file:__locale line:201
+		{ // std::locale::id file:__locale line:205
 			auto & enclosing_class = cl;
 			pybind11::class_<std::locale::id, std::shared_ptr<std::locale::id>> cl(enclosing_class, "id", "");
 			cl.def( pybind11::init( [](){ return new std::locale::id(); } ) );
@@ -293,14 +293,14 @@ void bind_std___locale(std::function< pybind11::module &(std::string const &name
 			cl.def("assign", (class std::ios_base::failure & (std::ios_base::failure::*)(const class std::ios_base::failure &)) &std::ios_base::failure::operator=, "C++: std::ios_base::failure::operator=(const class std::ios_base::failure &) --> class std::ios_base::failure &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 		}
 
-		{ // std::ios_base::Init file:ios line:447
+		{ // std::ios_base::Init file:ios line:448
 			auto & enclosing_class = cl;
 			pybind11::class_<std::ios_base::Init, std::shared_ptr<std::ios_base::Init>> cl(enclosing_class, "Init", "");
 			cl.def( pybind11::init( [](){ return new std::ios_base::Init(); } ) );
 		}
 
 	}
-	{ // std::basic_streambuf file: line:489
+	{ // std::basic_streambuf file: line:488
 		pybind11::class_<std::streambuf, std::shared_ptr<std::streambuf>, PyCallBack_std_streambuf> cl(M("std"), "streambuf", "");
 		cl.def("pubimbue", (class std::locale (std::streambuf::*)(const class std::locale &)) &std::basic_streambuf<char, std::char_traits<char> >::pubimbue, "C++: std::basic_streambuf<char, std::char_traits<char> >::pubimbue(const class std::locale &) --> class std::locale", pybind11::arg("__loc"));
 		cl.def("getloc", (class std::locale (std::streambuf::*)() const) &std::basic_streambuf<char, std::char_traits<char> >::getloc, "C++: std::basic_streambuf<char, std::char_traits<char> >::getloc() const --> class std::locale");
@@ -320,7 +320,7 @@ void bind_std___locale(std::function< pybind11::module &(std::string const &name
 		cl.def("sputc", (int (std::streambuf::*)(char)) &std::basic_streambuf<char, std::char_traits<char> >::sputc, "C++: std::basic_streambuf<char, std::char_traits<char> >::sputc(char) --> int", pybind11::arg("__c"));
 		cl.def("sputn", (long (std::streambuf::*)(const char *, long)) &std::basic_streambuf<char, std::char_traits<char> >::sputn, "C++: std::basic_streambuf<char, std::char_traits<char> >::sputn(const char *, long) --> long", pybind11::arg("__s"), pybind11::arg("__n"));
 	}
-	{ // std::basic_ios file: line:492
+	{ // std::basic_ios file: line:491
 		pybind11::class_<std::basic_ios<char,std::char_traits<char>>, std::shared_ptr<std::basic_ios<char,std::char_traits<char>>>, std::ios_base> cl(M("std"), "basic_ios_char_std_char_traits_char_t", "");
 		cl.def( pybind11::init<class std::basic_streambuf<char> *>(), pybind11::arg("__sb") );
 

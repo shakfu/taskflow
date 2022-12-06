@@ -1,14 +1,19 @@
+#include <__functional/reference_wrapper.h>
+#include <__memory/shared_ptr.h>
+#include <__memory/unique_ptr.h>
 #include <__tuple>
+#include <__utility/in_place.h>
+#include <__utility/integer_sequence.h>
+#include <__utility/pair.h>
+#include <__utility/piecewise_construct.h>
 #include <array>
 #include <exception>
-#include <filesystem>
-#include <functional>
 #include <future>
-#include <ios>
+#include <limits>
 #include <memory>
 #include <mutex>
 #include <new>
-#include <ostream>
+#include <ratio>
 #include <sstream> // __str__
 #include <string>
 #include <string_view>
@@ -17,8 +22,6 @@
 #include <taskflow/core/graph.hpp>
 #include <taskflow/core/observer.hpp>
 #include <taskflow/core/task.hpp>
-#include <taskflow/core/taskflow.hpp>
-#include <taskflow/core/topology.hpp>
 #include <taskflow/core/worker.hpp>
 #include <thread>
 #include <tuple>
@@ -39,7 +42,7 @@
 	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>)
 #endif
 
-// std::exception file:exception line:97
+// std::exception file:exception line:99
 struct PyCallBack_std_exception : public std::exception {
 	using std::exception::exception;
 
@@ -60,7 +63,7 @@ struct PyCallBack_std_exception : public std::exception {
 
 void bind_std_exception(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // std::exception file:exception line:97
+	{ // std::exception file:exception line:99
 		pybind11::class_<std::exception, std::shared_ptr<std::exception>, PyCallBack_std_exception> cl(M("std"), "exception", "");
 		cl.def( pybind11::init( [](){ return new std::exception(); }, [](){ return new PyCallBack_std_exception(); } ) );
 		cl.def( pybind11::init( [](PyCallBack_std_exception const &o){ return new PyCallBack_std_exception(o); } ) );
@@ -68,7 +71,7 @@ void bind_std_exception(std::function< pybind11::module &(std::string const &nam
 		cl.def("what", (const char * (std::exception::*)() const) &std::exception::what, "C++: std::exception::what() const --> const char *", pybind11::return_value_policy::automatic);
 		cl.def("assign", (class std::exception & (std::exception::*)(const class std::exception &)) &std::exception::operator=, "C++: std::exception::operator=(const class std::exception &) --> class std::exception &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
-	{ // std::exception_ptr file:exception line:139
+	{ // std::exception_ptr file:exception line:143
 		pybind11::class_<std::exception_ptr, std::shared_ptr<std::exception_ptr>> cl(M("std"), "exception_ptr", "");
 		cl.def( pybind11::init( [](){ return new std::exception_ptr(); } ) );
 		cl.def( pybind11::init<std::nullptr_t>(), pybind11::arg("") );

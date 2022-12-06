@@ -1,3 +1,4 @@
+#include <__memory/shared_ptr.h>
 #include <ios>
 #include <memory>
 #include <ostream>

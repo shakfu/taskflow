@@ -16,7 +16,7 @@
 
 void bind___threading_support(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // std::thread::id file:__threading_support line:416
+	{ // std::thread::id file:__threading_support line:652
 		pybind11::class_<std::thread::id, std::shared_ptr<std::thread::id>> cl(M("st"), "__thread_id", "");
 		cl.def( pybind11::init( [](){ return new std::thread::id(); } ) );
 		cl.def( pybind11::init( [](std::thread::id const &o){ return new std::thread::id(o); } ) );

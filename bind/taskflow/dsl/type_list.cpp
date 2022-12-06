@@ -1,6 +1,7 @@
 #include <sstream> // __str__
 #include <taskflow/dsl/task_dsl.hpp>
 #include <taskflow/dsl/task_trait.hpp>
+#include <taskflow/dsl/type_list.hpp>
 
 #include <functional>
 #include <pybind11/pybind11.h>
@@ -15,8 +16,12 @@
 	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>)
 #endif
 
-void bind_taskflow_dsl_task_trait(std::function< pybind11::module &(std::string const &namespace_) > &M)
+void bind_taskflow_dsl_type_list(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
+	{ // tf::dsl::Concat file:taskflow/dsl/type_list.hpp line:55
+		pybind11::class_<tf::dsl::Concat>, std::shared_ptr<tf::dsl::Concat>>> cl(M("tf::dsl"), "Concat_t", "");
+		cl.def( pybind11::init( [](){ return new tf::dsl::Concat>(); } ) );
+	}
 	{ // tf::dsl::TaskSignature file:taskflow/dsl/task_trait.hpp line:13
 		pybind11::class_<tf::dsl::TaskSignature, std::shared_ptr<tf::dsl::TaskSignature>> cl(M("tf::dsl"), "TaskSignature", "");
 		cl.def( pybind11::init( [](){ return new tf::dsl::TaskSignature(); } ) );

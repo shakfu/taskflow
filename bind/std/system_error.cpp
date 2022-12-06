@@ -1,10 +1,11 @@
 #include <memory>
-#include <ratio>
+#include <mutex>
 #include <sstream> // __str__
 #include <stdexcept>
 #include <string>
 #include <string_view>
 #include <system_error>
+#include <thread>
 
 #include <functional>
 #include <pybind11/pybind11.h>
@@ -19,7 +20,7 @@
 	PYBIND11_MAKE_OPAQUE(std::shared_ptr<void>)
 #endif
 
-// std::error_category file:system_error line:196
+// std::error_category file:system_error line:199
 struct PyCallBack_std_error_category : public std::error_category {
 	using std::error_category::error_category;
 
@@ -90,7 +91,7 @@ struct PyCallBack_std_error_category : public std::error_category {
 	}
 };
 
-// std::system_error file:system_error line:461
+// std::system_error file:system_error line:462
 struct PyCallBack_std_system_error : public std::system_error {
 	using std::system_error::system_error;
 
@@ -111,7 +112,7 @@ struct PyCallBack_std_system_error : public std::system_error {
 
 void bind_std_system_error(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // std::error_category file:system_error line:196
+	{ // std::error_category file:system_error line:199
 		pybind11::class_<std::error_category, std::shared_ptr<std::error_category>, PyCallBack_std_error_category> cl(M("std"), "error_category", "");
 		cl.def( pybind11::init( [](){ return new PyCallBack_std_error_category(); } ) );
 		cl.def("name", (const char * (std::error_category::*)() const) &std::error_category::name, "C++: std::error_category::name() const --> const char *", pybind11::return_value_policy::automatic);
@@ -122,7 +123,7 @@ void bind_std_system_error(std::function< pybind11::module &(std::string const &
 		cl.def("__eq__", (bool (std::error_category::*)(const class std::error_category &) const) &std::error_category::operator==, "C++: std::error_category::operator==(const class std::error_category &) const --> bool", pybind11::arg("__rhs"));
 		cl.def("__ne__", (bool (std::error_category::*)(const class std::error_category &) const) &std::error_category::operator!=, "C++: std::error_category::operator!=(const class std::error_category &) const --> bool", pybind11::arg("__rhs"));
 	}
-	{ // std::error_condition file:system_error line:241
+	{ // std::error_condition file:system_error line:244
 		pybind11::class_<std::error_condition, std::shared_ptr<std::error_condition>> cl(M("std"), "error_condition", "");
 		cl.def( pybind11::init( [](){ return new std::error_condition(); } ) );
 		cl.def( pybind11::init<int, const class std::error_category &>(), pybind11::arg("__val"), pybind11::arg("__cat") );
@@ -134,7 +135,7 @@ void bind_std_system_error(std::function< pybind11::module &(std::string const &
 		cl.def("category", (const class std::error_category & (std::error_condition::*)() const) &std::error_condition::category, "C++: std::error_condition::category() const --> const class std::error_category &", pybind11::return_value_policy::automatic);
 		cl.def("message", (std::string (std::error_condition::*)() const) &std::error_condition::message, "C++: std::error_condition::message() const --> std::string");
 	}
-	{ // std::error_code file:system_error line:313
+	{ // std::error_code file:system_error line:315
 		pybind11::class_<std::error_code, std::shared_ptr<std::error_code>> cl(M("std"), "error_code", "");
 		cl.def( pybind11::init( [](){ return new std::error_code(); } ) );
 		cl.def( pybind11::init<int, const class std::error_category &>(), pybind11::arg("__val"), pybind11::arg("__cat") );
@@ -148,7 +149,7 @@ void bind_std_system_error(std::function< pybind11::module &(std::string const &
 		cl.def("message", (std::string (std::error_code::*)() const) &std::error_code::message, "C++: std::error_code::message() const --> std::string");
 		cl.def("assign", (class std::error_code & (std::error_code::*)(const class std::error_code &)) &std::error_code::operator=, "C++: std::error_code::operator=(const class std::error_code &) --> class std::error_code &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
-	{ // std::system_error file:system_error line:461
+	{ // std::system_error file:system_error line:462
 		pybind11::class_<std::system_error, std::shared_ptr<std::system_error>, PyCallBack_std_system_error, std::runtime_error> cl(M("std"), "system_error", "");
 		cl.def( pybind11::init<class std::error_code, const std::string &>(), pybind11::arg("__ec"), pybind11::arg("__what_arg") );
 
@@ -166,5 +167,16 @@ void bind_std_system_error(std::function< pybind11::module &(std::string const &
 		cl.def( pybind11::init( [](std::system_error const &o){ return new std::system_error(o); } ) );
 		cl.def("code", (const class std::error_code & (std::system_error::*)() const) &std::system_error::code, "C++: std::system_error::code() const --> const class std::error_code &", pybind11::return_value_policy::automatic);
 		cl.def("assign", (class std::system_error & (std::system_error::*)(const class std::system_error &)) &std::system_error::operator=, "C++: std::system_error::operator=(const class std::system_error &) --> class std::system_error &", pybind11::return_value_policy::automatic, pybind11::arg(""));
+	}
+	{ // std::thread file:thread line:220
+		pybind11::class_<std::thread, std::shared_ptr<std::thread>> cl(M("std"), "thread", "");
+		cl.def( pybind11::init( [](){ return new std::thread(); } ) );
+		cl.def("swap", (void (std::thread::*)(class std::thread &)) &std::thread::swap, "C++: std::thread::swap(class std::thread &) --> void", pybind11::arg("__t"));
+		cl.def("joinable", (bool (std::thread::*)() const) &std::thread::joinable, "C++: std::thread::joinable() const --> bool");
+		cl.def("join", (void (std::thread::*)()) &std::thread::join, "C++: std::thread::join() --> void");
+		cl.def("detach", (void (std::thread::*)()) &std::thread::detach, "C++: std::thread::detach() --> void");
+		cl.def("get_id", (std::thread::id (std::thread::*)() const) &std::thread::get_id, "C++: std::thread::get_id() const --> std::thread::id");
+		cl.def("native_handle", (struct _opaque_pthread_t * (std::thread::*)()) &std::thread::native_handle, "C++: std::thread::native_handle() --> struct _opaque_pthread_t *", pybind11::return_value_policy::automatic);
+		cl.def_static("hardware_concurrency", (unsigned int (*)()) &std::thread::hardware_concurrency, "C++: std::thread::hardware_concurrency() --> unsigned int");
 	}
 }

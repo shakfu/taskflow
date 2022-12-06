@@ -1,21 +1,6 @@
-#include <cmath>
 #include <exception>
-#include <functional>
 #include <future>
-#include <list>
-#include <memory>
-#include <optional>
-#include <random>
 #include <sstream> // __str__
-#include <string>
-#include <string_view>
-#include <taskflow/core/graph.hpp>
-#include <taskflow/core/observer.hpp>
-#include <taskflow/core/taskflow.hpp>
-#include <thread>
-#include <unordered_map>
-#include <unordered_set>
-#include <utility>
 
 #include <functional>
 #include <pybind11/pybind11.h>
@@ -32,7 +17,7 @@
 
 void bind_std_future(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
-	{ // std::future file:future line:1274
+	{ // std::future file:future line:1205
 		pybind11::class_<std::future<void>, std::shared_ptr<std::future<void>>> cl(M("std"), "future_void_t", "");
 		cl.def( pybind11::init( [](){ return new std::future<void>(); } ) );
 		cl.def("share", (class std::shared_future<void> (std::future<void>::*)()) &std::future<void>::share, "C++: std::future<void>::share() --> class std::shared_future<void>");
@@ -41,7 +26,7 @@ void bind_std_future(std::function< pybind11::module &(std::string const &namesp
 		cl.def("valid", (bool (std::future<void>::*)() const) &std::future<void>::valid, "C++: std::future<void>::valid() const --> bool");
 		cl.def("wait", (void (std::future<void>::*)() const) &std::future<void>::wait, "C++: std::future<void>::wait() const --> void");
 	}
-	{ // std::shared_future file:future line:2515
+	{ // std::shared_future file:future line:2377
 		pybind11::class_<std::shared_future<void>, std::shared_ptr<std::shared_future<void>>> cl(M("std"), "shared_future_void_t", "");
 		cl.def( pybind11::init( [](){ return new std::shared_future<void>(); } ) );
 		cl.def( pybind11::init( [](std::shared_future<void> const &o){ return new std::shared_future<void>(o); } ) );

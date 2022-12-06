@@ -1,5 +1,10 @@
+#include <_ctermid.h>
+#include <_stdio.h>
 #include <sstream> // __str__
+#include <stdio.h>
 #include <sys/_pthread/_pthread_types.h>
+#include <sys/stdio.h>
+#include <time.h>
 
 #include <functional>
 #include <pybind11/pybind11.h>

@@ -38,7 +38,7 @@ void bind_taskflow_utility_uuid(std::function< pybind11::module &(std::string co
 		cl.def("__ne__", (bool (tf::UUID::*)(const struct tf::UUID &) const) &tf::UUID::operator!=, "C++: tf::UUID::operator!=(const struct tf::UUID &) const --> bool", pybind11::arg(""));
 		cl.def("to_string", (std::string (tf::UUID::*)() const) &tf::UUID::to_string, "C++: tf::UUID::to_string() const --> std::string");
 
-		cl.def("__str__", [](tf::UUID const &o) -> std::string { std::ostringstream s; s << o; return s.str(); } );
+		cl.def("__str__", [](tf::UUID const &o) -> std::string { std::ostringstream s; tf::operator<<(s, o); return s.str(); } );
 	}
 	// tf::swap(struct tf::UUID &, struct tf::UUID &) file:taskflow/utility/uuid.hpp line:211
 	M("tf").def("swap", (void (*)(struct tf::UUID &, struct tf::UUID &)) &tf::swap, "C++: tf::swap(struct tf::UUID &, struct tf::UUID &) --> void", pybind11::arg("lhs"), pybind11::arg("rhs"));
