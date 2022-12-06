@@ -1,7 +1,12 @@
-#SYS_CPP_INCLUDE=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1
-#SYS_C_INCLUDE=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include
-SYS_CPP_INCLUDE=/Library/Developer/CommandLineTools/usr/include/c++/v1
-SYS_C_INCLUDE=/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include
+# SYS_CPP_INCLUDE=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1
+# SYS_C_INCLUDE=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include
+SYS_C_INCLUDE=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include
+SYS_CPP_INCLUDE=//Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1
+#SYS_CPP_INCLUDE=/Library/Developer/CommandLineTools/usr/include/c++/v1
+#SYS_C_INCLUDE=/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include
+CLANG_INCLUDE=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/include
+TOOLCHAIN_INCLUDE=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include
+FRAMEWORK_INCLUDE=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks
 PWD=$(shell pwd)
 
 NAME=taskflow
@@ -28,6 +33,9 @@ bind:
 		-I/usr/local/include \
 		-I$(SYS_C_INCLUDE) \
 		-I$(SYS_CPP_INCLUDE) \
+		-I$(CLANG_INCLUDE) \
+		-I$(TOOLCHAIN_INCLUDE) \
+		-I$(FRAMEWORK_INCLUDE) \
 		-I$(PWD)/include \
 		-DNDEBUG
 
