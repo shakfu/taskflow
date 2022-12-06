@@ -21,7 +21,10 @@ Run `make` in this directory to generate bindings
 
 - incomplete bindings
 
+- 2 errors remaining
+
 ## TODO
 
 - [ ] fix binder generations issues 
+- [ ] fix remaining 2 errors during binding and building
 
